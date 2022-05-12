@@ -1,4 +1,5 @@
 const AutorController = require("../controllers/autor.controller");
+const UserController = require("../controllers/user.controllers");
 
 module.exports = app => {
     app.post("/api/autores", AutorController.create_autor);
@@ -10,4 +11,6 @@ module.exports = app => {
     app.put("/api/autores/:id", AutorController.update_autor);
 
     app.delete("/api/autores/:id", AutorController.delete_autor);
+
+    app.post("/api/register", UserController.register);
 }
