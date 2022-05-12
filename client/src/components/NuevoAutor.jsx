@@ -23,9 +23,15 @@ const NuevoAutor = () => {
             articulos,
             novelagrafica,
             cuentos
-        })
+        }, {withCredentials: true})
             .then(res => history.push("/"))
-            .catch(err => setErrors(err.response.data.errors));
+            .catch(err => {
+                if(err.response.status === 401) {
+                    history.push("/login")
+                } else {
+                    setErrors(err.response.data.errors)
+                }
+            });
     }
 
     return (

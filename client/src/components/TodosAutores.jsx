@@ -1,15 +1,22 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import ButtonLogout from "./ButtonLogout";
 
 const TodosAutores = () => {
 
     const [autores, setAutores] = useState([]);
 
+    const history = useHistory();
+
     useEffect(() =>{
-        axios.get("http://localhost:8000/api/autores")
+        axios.get("http://localhost:8000/api/autores", {withCredentials: true})
             .then(res => setAutores(res.data))
-            .catch(err => console.log(err));
+            .catch(err => {
+                if(err.response.status === 401){
+                    history.push("/login");
+                }
+            });
     }, [])
 
     const borrarAutor = idAutor => {
@@ -43,6 +50,7 @@ const TodosAutores = () => {
         <div>
             <h1>Autores</h1>
             <Link to="/nuevo" className="btn btn-success">Nuevo Autor</Link>
+            <ButtonLogout />
             <table className="table table-hover">
                 <thead>
                     <tr>

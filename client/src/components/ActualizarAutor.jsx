@@ -16,7 +16,7 @@ const ActualizarAutor = () => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/autores/"+id)
+        axios.get("http://localhost:8000/api/autores/"+id, {withCredentials:true})
             .then(res => {
                 setNombre(res.data.nombre);
                 setImagen(res.data.imagen);
@@ -25,7 +25,14 @@ const ActualizarAutor = () => {
                 setNovelagrafica(res.data.novelagrafica);
                 setCuentos(res.data.cuentos);
             })
-            .catch(err => history.push("/error"));
+            .catch(err => {
+                if(err.response.status === 401) {
+                    history.push("/login")
+                } else {
+                    history.push("/error")
+                }
+                
+            });
     }, [id, history])
 
     const actualizarAutor = e => {
